@@ -1,39 +1,156 @@
-import { Provider } from 'react-redux';
-import React from 'react';
-import { View, ActivityIndicator, StyleSheet } from 'react-native';
-import { PersistGate } from 'redux-persist/integration/react';
-import { NavigationContainer } from '@react-navigation/native';
-import { colors } from './src/styles';
+import 'react-native-gesture-handler';
+import React, {useEffect, useContext, useMemo, useReducer} from 'react';
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
 
-import { store, persistor } from './src/redux/store';
+// Screens
+import SignInScreen from './screens/auth/signInScreen';
+import SignUpScreen from './screens/auth/signUpScreen';
+import SplashScreen from './screens/splashScreen';
+import AppInit from './AppInit';
 
-import AppView from './src/modules/AppViewContainer';
+import AsyncStorage from '@react-native-community/async-storage';
+import {stateConditionString} from './utils/helpers';
+import {AuthContext} from './utils/authContext';
+import {reducer, initialState} from './reducer';
 
-export default function App() {
+const Stack = createStackNavigator();
+
+const createHomeStack = () => {
+  const {signOut} = useContext(AuthContext);
+
   return (
-    <Provider store={store}>
-      <NavigationContainer>
-        <PersistGate
-          loading={
-            // eslint-disable-next-line react/jsx-wrap-multilines
-            <View style={styles.container}>
-              <ActivityIndicator color={colors.red} />
-            </View>
-          }
-          persistor={persistor}
-        >
-          <AppView />
-        </PersistGate>
-      </NavigationContainer>
-    </Provider>
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Home Screen"
+        component={AppInit}
+        initialParams={{singOut: signOut}}
+      />
+    </Stack.Navigator>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'white',
-  },
-});
+export default App = ({navigation}) => {
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  useEffect(() => {
+    // Fetch the token from storage then navigate to our appropriate place
+    const bootstrapAsync = async () => {
+      let userToken;
+
+      try {
+        userToken = await AsyncStorage.getItem('token');
+      } catch (e) {
+        console.log(e)
+      }
+
+      // After restoring token, we may need to validate it in production apps
+      // This will switch to the App screen or Auth screen and this loading
+      // screen will be unmounted and thrown away.
+      dispatch({type: 'RESTORE_TOKEN', token: userToken});
+    };
+    bootstrapAsync();
+  }, []);
+
+  // In a production app, we need to send some data (usually username, password) to server and get a token
+  // We will also need to handle errors if sign in failed
+  // After getting token, we need to persist the token using `AsyncStorage`
+  const authContextValue = useMemo(
+    () => ({
+      signIn: async (data) => {
+        if (
+          data &&
+          data.emailAddress !== undefined &&
+          data.password !== undefined
+        ) {
+          try{
+            const jToken = await AsyncStorage.getItem('token');
+            dispatch({type: 'SIGN_IN', token: jToken});
+          } catch (e){
+            console.log(e);
+            dispatch({type: 'TO_SIGNIN_PAGE'});
+          }
+        } else {
+          dispatch({type: 'TO_SIGNIN_PAGE'});
+        }
+      },
+      signOut: async (data) => {
+        try{
+          await AsyncStorage.removeItem('token')
+          console.log('token borrado exitosamente')
+          dispatch({type: 'SIGN_OUT'});
+          chooseScreen(state)
+          console.log('salida exitosa')
+        }
+        catch (e){
+          console.log(e)
+        }
+      },
+      signUp: async (data) => {
+        if (
+          data &&
+          data.emailAddress !== undefined &&
+          data.password !== undefined
+        ) {
+          dispatch({type: 'SIGNED_UP', token: 'dummy-auth-token'});
+        } else {
+          dispatch({type: 'TO_SIGNUP_PAGE'});
+        }
+      },
+    }),
+    [],
+  );
+
+  const chooseScreen = (state) => {
+    let navigateTo = stateConditionString(state);
+    let arr = [];
+
+    switch (navigateTo) {
+      case 'LOAD_APP':
+        arr.push(<Stack.Screen name="Splash" component={SplashScreen} />);
+        break;
+
+      case 'LOAD_SIGNUP':
+        arr.push(
+          <Stack.Screen
+            name="SignUp"
+            component={SignUpScreen}
+            options={{
+              title: 'Sign Up',
+              animationTypeForReplace: state.isSignout ? 'pop' : 'push',
+            }}
+          />,
+        );
+        break;
+      case 'LOAD_SIGNIN':
+        arr.push(<Stack.Screen name="SignIn" component={SignInScreen} />);
+        break;
+
+      case 'LOAD_HOME':
+        arr.push(
+          <Stack.Screen
+            name="Home"
+            component={createHomeStack}
+            options={{
+              title: 'Home Screen Parent',
+              headerStyle: {backgroundColor: 'black'},
+              headerTintColor: 'white',
+            }}
+          />,
+        );
+        break;
+      default:
+        arr.push(<Stack.Screen name="SignIn" component={SignInScreen} />);
+        break;
+    }
+    return arr[0];
+  };
+
+  return (
+    <AuthContext.Provider value={authContextValue}>
+      <NavigationContainer>
+        <Stack.Navigator>{chooseScreen(state)}</Stack.Navigator>
+      </NavigationContainer>
+    </AuthContext.Provider>
+  );
+};
