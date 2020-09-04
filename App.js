@@ -47,7 +47,7 @@ export default App = ({navigation}) => {
       // After restoring token, we may need to validate it in production apps
       // This will switch to the App screen or Auth screen and this loading
       // screen will be unmounted and thrown away.
-      dispatch({type: 'RESTORE_TOKEN', token: userToken});
+      dispatch({type: 'RESTORE_TOKEN', token: 'token_reserva'});
     };
     bootstrapAsync();
   }, []);
@@ -63,28 +63,15 @@ export default App = ({navigation}) => {
           data.emailAddress !== undefined &&
           data.password !== undefined
         ) {
-          try{
-            const jToken = await AsyncStorage.getItem('token');
-            dispatch({type: 'SIGN_IN', token: jToken});
-          } catch (e){
-            console.log(e);
-            dispatch({type: 'TO_SIGNIN_PAGE'});
-          }
+          dispatch({type: 'SIGN_IN', token: 'token'});
         } else {
           dispatch({type: 'TO_SIGNIN_PAGE'});
         }
       },
       signOut: async (data) => {
-        try{
-          await AsyncStorage.removeItem('token')
-          console.log('token borrado exitosamente')
           dispatch({type: 'SIGN_OUT'});
           chooseScreen(state)
           console.log('salida exitosa')
-        }
-        catch (e){
-          console.log(e)
-        }
       },
       signUp: async (data) => {
         if (

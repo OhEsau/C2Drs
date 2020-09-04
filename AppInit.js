@@ -7,7 +7,7 @@ const AppInit = ({navigation}) => {
   const { signOut } = useContext(AuthContext);
     return (
       <View style={styles.container}>
-        <Text style={{flex: 1}}>signIn.user.name</Text>
+        <Text style={{flex: 1}}>Home Screen</Text>
       <Button
         title="Salir"
         onPress={() => {signOut()}}

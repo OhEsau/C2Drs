@@ -10,22 +10,17 @@ import {
 
 import { AuthContext } from '../../utils/authContext';
 
-const SignInScreen = ({ navigation }) => {
-    saveToken = async (token) => {
+const saveToken = async (token) => {
         try {
             await AsyncStorage.setItem('token', token);
+            const jsonValue = await AsyncStorage.getItem('token');
+            console.log(JSON.stringify(jsonValue))
         } catch (error){
             console.log(error);
         }
     }
-    
-    loginFunction = async () => {
-        const jsonValue = await AsyncStorage.getItem('token');
-        console.log(JSON.stringify(jsonValue))
-        if(jsonValue!==null){
-            signIn({ emailAddress, password, user });
-        }
-    }
+
+const SignInScreen = ({ navigation }) => {
 
     const [emailAddress, setemailAddress] = useState('');
     const [password, setPassword] = useState('');
@@ -66,11 +61,14 @@ const SignInScreen = ({ navigation }) => {
         })
         .then((response)=> response.json())
         .then((responseData) => {
+            console.log('primer paso, user data');
             console.log(
                 "POST Response", "Response Body -> "+ JSON.stringify(responseData)
             )
             console.log('bienvenido: ' + responseData[1].name);
+            console.log('asignacion del token')
             saveToken(responseData[0].access_token);
+            console.log(responseData[0].access_token)
             setCuenta({user_name: responseData[1].name})
         })
         .catch(error => {
@@ -79,7 +77,7 @@ const SignInScreen = ({ navigation }) => {
 
         validateAll(data, rules, messages)
             .then(() => {
-                loginFunction();
+                signIn({ emailAddress, password, user});
             })
             .catch(err => {
                 const formatError = {};
