@@ -70,6 +70,7 @@ const SignInScreen = ({ navigation }) => {
             saveToken(responseData[0].access_token);
             console.log(responseData[0].access_token)
             setCuenta({user_name: responseData[1].name})
+            console.log('log: '+user);
         })
         .catch(error => {
             console.log(error);

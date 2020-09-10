@@ -35,19 +35,6 @@ export const reducer = (prevState, action) => {
           isSignedIn: true,
           isSignedUp: true,
           userToken: action.token,
-          user: {
-            access_token: null,
-            expires_in: null,
-            token_type: null,
-            scope: null,
-            refresh_token: null,
-            client_type: null,
-            id: null,
-            email: null,
-            name: null,
-            first_name: null,
-            last_name: null,
-          },
         };
       case 'SIGN_OUT':
         return {

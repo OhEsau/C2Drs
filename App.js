@@ -1,142 +1,155 @@
-import 'react-native-gesture-handler';
-import React, {useEffect, useContext, useMemo, useReducer} from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
+import React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createDrawerNavigator } from "@react-navigation/drawer";
 
-// Screens
-import SignInScreen from './screens/auth/signInScreen';
-import SignUpScreen from './screens/auth/signUpScreen';
-import SplashScreen from './screens/splashScreen';
-import AppInit from './AppInit';
+import { AuthContext } from "./utils/authContext";
+import {
+  CreateAccount,
+  Search,
+  Home,
+  Details,
+  Search2,
+  Profile,
+  Splash,
+  Welcome
+} from "./Screens";
 
-import AsyncStorage from '@react-native-community/async-storage';
-import {stateConditionString} from './utils/helpers';
-import {AuthContext} from './utils/authContext';
-import {reducer, initialState} from './reducer';
+import {SignIn} from './Screens/SigIn'
+import AsyncStorage from "@react-native-community/async-storage";
 
-const Stack = createStackNavigator();
+const AuthStack = createStackNavigator();
+const AuthStackScreen = () => (
+  <AuthStack.Navigator>
+    <AuthStack.Screen
+      name="Welcome"
+      component={Welcome}
+      options={{ title: "Bienvenido" }}
+    />
+    <AuthStack.Screen
+      name="SignIn"
+      component={SignIn}
+      options={{ title: "Iniciar Sesión" }}
+    />
+    <AuthStack.Screen
+      name="CreateAccount"
+      component={CreateAccount}
+      options={{ title: "Crear cuenta" }}
+    />
+  </AuthStack.Navigator>
+);
 
-const createHomeStack = () => {
-  const {signOut} = useContext(AuthContext);
+const Tabs = createBottomTabNavigator();
+const HomeStack = createStackNavigator();
+const SearchStack = createStackNavigator();
 
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="Home Screen"
-        component={AppInit}
-        initialParams={{singOut: signOut}}
+const HomeStackScreen = () => (
+  <HomeStack.Navigator>
+    <HomeStack.Screen name="Home" component={Home} />
+    <HomeStack.Screen
+      name="Details"
+      component={Details}
+      options={({ route }) => ({
+        title: route.params.name
+      })}
+    />
+  </HomeStack.Navigator>
+);
+
+const SearchStackScreen = () => (
+  <SearchStack.Navigator>
+    <SearchStack.Screen name="Search" component={Search} />
+    <SearchStack.Screen name="Search2" component={Search2} />
+  </SearchStack.Navigator>
+);
+
+const ProfileStack = createStackNavigator();
+const ProfileStackScreen = () => (
+  <ProfileStack.Navigator>
+    <ProfileStack.Screen name="Profile" component={Profile} />
+  </ProfileStack.Navigator>
+);
+
+const TabsScreen = () => (
+  <Tabs.Navigator>
+    <Tabs.Screen name="Home" component={HomeStackScreen} />
+    <Tabs.Screen name="Search" component={SearchStackScreen} />
+  </Tabs.Navigator>
+);
+
+const Drawer = createDrawerNavigator();
+const DrawerScreen = () => (
+  <Drawer.Navigator initialRouteName="Profile">
+    <Drawer.Screen name="Home" component={TabsScreen} />
+    <Drawer.Screen name="Profile" component={ProfileStackScreen} />
+  </Drawer.Navigator>
+);
+
+const RootStack = createStackNavigator();
+const RootStackScreen = ({ userToken }) => (
+  <RootStack.Navigator headerMode="none">
+    {userToken ? (
+      <RootStack.Screen
+        name="App"
+        component={DrawerScreen}
+        options={{
+          animationEnabled: false
+        }}
       />
-    </Stack.Navigator>
-  );
-};
+    ) : (
+      <RootStack.Screen
+        name="Auth"
+        component={AuthStackScreen}
+        options={{
+          animationEnabled: false
+        }}
+      />
+    )}
+  </RootStack.Navigator>
+);
 
-export default App = ({navigation}) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+export default () => {
+  const [isLoading, setIsLoading] = React.useState(true);
+  const [userToken, setUserToken] = React.useState(null);
 
-  useEffect(() => {
-    // Fetch the token from storage then navigate to our appropriate place
-    const bootstrapAsync = async () => {
-      let userToken;
-
-      try {
-        userToken = await AsyncStorage.getItem('token');
-      } catch (e) {
-        console.log(e)
+  const authContext = React.useMemo(() => {
+    return {
+      signIn: () => {
+        setIsLoading(false);
+        setUserToken("asdf");
+      },
+      signUp: () => {
+        setIsLoading(false);
+        setUserToken("asdf");
+      },
+      signOut: async () => {
+        setIsLoading(false);
+        setUserToken(null);
+        try{
+          await AsyncStorage.removeItem('token')
+          console.log('token eliminado')
+        } catch (e){
+          console.log(e)
+        }
       }
-
-      // After restoring token, we may need to validate it in production apps
-      // This will switch to the App screen or Auth screen and this loading
-      // screen will be unmounted and thrown away.
-      dispatch({type: 'RESTORE_TOKEN', token: 'token_reserva'});
     };
-    bootstrapAsync();
   }, []);
 
-  // In a production app, we need to send some data (usually username, password) to server and get a token
-  // We will also need to handle errors if sign in failed
-  // After getting token, we need to persist the token using `AsyncStorage`
-  const authContextValue = useMemo(
-    () => ({
-      signIn: async (data) => {
-        if (
-          data &&
-          data.emailAddress !== undefined &&
-          data.password !== undefined
-        ) {
-          dispatch({type: 'SIGN_IN', token: 'token'});
-        } else {
-          dispatch({type: 'TO_SIGNIN_PAGE'});
-        }
-      },
-      signOut: async (data) => {
-          dispatch({type: 'SIGN_OUT'});
-          chooseScreen(state)
-          console.log('salida exitosa')
-      },
-      signUp: async (data) => {
-        if (
-          data &&
-          data.emailAddress !== undefined &&
-          data.password !== undefined
-        ) {
-          dispatch({type: 'SIGNED_UP', token: 'dummy-auth-token'});
-        } else {
-          dispatch({type: 'TO_SIGNUP_PAGE'});
-        }
-      },
-    }),
-    [],
-  );
+  React.useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+  }, []);
 
-  const chooseScreen = (state) => {
-    let navigateTo = stateConditionString(state);
-    let arr = [];
-
-    switch (navigateTo) {
-      case 'LOAD_APP':
-        arr.push(<Stack.Screen name="Splash" component={SplashScreen} />);
-        break;
-
-      case 'LOAD_SIGNUP':
-        arr.push(
-          <Stack.Screen
-            name="SignUp"
-            component={SignUpScreen}
-            options={{
-              title: 'Sign Up',
-              animationTypeForReplace: state.isSignout ? 'pop' : 'push',
-            }}
-          />,
-        );
-        break;
-      case 'LOAD_SIGNIN':
-        arr.push(<Stack.Screen name="SignIn" component={SignInScreen} />);
-        break;
-
-      case 'LOAD_HOME':
-        arr.push(
-          <Stack.Screen
-            name="Home"
-            component={createHomeStack}
-            options={{
-              title: 'Home Screen Parent',
-              headerStyle: {backgroundColor: 'black'},
-              headerTintColor: 'white',
-            }}
-          />,
-        );
-        break;
-      default:
-        arr.push(<Stack.Screen name="SignIn" component={SignInScreen} />);
-        break;
-    }
-    return arr[0];
-  };
+  if (isLoading) {
+    return <Splash />;
+  }
 
   return (
-    <AuthContext.Provider value={authContextValue}>
+    <AuthContext.Provider value={authContext}>
       <NavigationContainer>
-        <Stack.Navigator>{chooseScreen(state)}</Stack.Navigator>
+        <RootStackScreen userToken={userToken} />
       </NavigationContainer>
     </AuthContext.Provider>
   );
