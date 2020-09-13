@@ -11,12 +11,14 @@ import {
   Home,
   Details,
   Search2,
-  Profile,
   Splash,
-  Welcome
+  Welcome,
+  NewRegister,
 } from "./Screens";
 
 import {SignIn} from './Screens/SigIn'
+import {UserRegister} from './Screens/UserRegister'
+import {Profile} from './Screens/Profile'
 import AsyncStorage from "@react-native-community/async-storage";
 
 const AuthStack = createStackNavigator();
@@ -33,9 +35,24 @@ const AuthStackScreen = () => (
       options={{ title: "Iniciar Sesión" }}
     />
     <AuthStack.Screen
+      name="NewRegister"
+      component={NewRegister}
+      options={{ title: "Nuevo Registro" }}
+    />
+    <AuthStack.Screen
       name="CreateAccount"
       component={CreateAccount}
       options={{ title: "Crear cuenta" }}
+    />
+    <AuthStack.Screen
+      name="UserRegister"
+      component={UserRegister}
+      options={{ title: "Registrar Nuevo Usuario" }}
+    />
+    <AuthStack.Screen
+      name="Profile"
+      component={Profile}
+      options={{ title: "Inicio" }}
     />
   </AuthStack.Navigator>
 );

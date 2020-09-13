@@ -1,4 +1,4 @@
-import React, {useState, useContext} from "react";
+import React, {useState, useContext, useEffect} from "react";
 import { View, Text, StyleSheet, TouchableOpacity} from "react-native";
 import AsyncStorage from '@react-native-community/async-storage'
 import { Input, Card } from 'react-native-elements';
@@ -7,6 +7,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { Button } from '../src/components';
 
 import { AuthContext } from "../utils/authContext";
+import { update } from "lodash";
 
 const ScreenContainer = ({ children }) => (
     <View style={styles.container}>{children}</View>
@@ -35,9 +36,46 @@ export const SignIn = ({ navigation }) => {
         setEntry(!textEntry);
     }
 
+    useEffect(()=>{
+        if(visibleStatusBar){
+            const handleSignIn = () => {
+                const rules = {
+                    email: 'required|email',
+                    password: 'required|string|min:8|max:40'
+                };
+        
+                const messages = {
+                    required: field => `se necesita ${field}`,
+                    'username.alpha': 'Símbolos no permitidos',
+                    'email.email': 'Ingrese un correo válido por favor',
+                    'password.min': '¿Contraseña Incorrecta?'
+                };
+        
+                try{
+                    validateAll(data, rules, messages)
+                        .then(async() => {
+                            await userData(data);
+                        })
+                    .catch(err => {
+                        const formatError = {};
+                        err.forEach(err => {
+                            formatError[err.field] = err.message;
+                        });
+                        setSignUpErrors(formatError);
+                        changeVisibilityStatusBar();
+                    });
+                }catch(e){
+                    console.log(e.message);
+                }
+            };
+            handleSignIn();
+        } else {
+            console.log('...')
+        }
+    },[visibleStatusBar])
+
     const userData = async (data) => {
-        changeVisibilityStatusBar()
-        await fetch('https://conn2drs.herokuapp.com/authentication/token/', {
+        const ficha = await fetch('http://3.21.252.81/authentication/token/', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -49,23 +87,27 @@ export const SignIn = ({ navigation }) => {
                 })
             })
             .then((response)=> response.json())
-            .then((responseData) => {
-                console.log('primer paso, user data');
+            .then(async (responseData) => {
                 console.log(
                     "POST Response", "Response Body -> "+ JSON.stringify(responseData)
                 )
-                if(responseData.error!=null){
-                    alert('error' + JSON.stringify(responseData.error_description))
+                if(responseData.error!=null || responseData.Error!=null){
+                    responseData.error ? alert('error: ' + JSON.stringify(responseData.error_description)) : null
+                    responseData.Error ? alert('error: ' + JSON.stringify(responseData.Error)) : null
+                    return null;
                 }
                 else{
-                    saveToken(responseData);
+                    await saveToken(responseData);
                     signIn({data});
                 }
             })
             .catch(error => {
                 console.log(error.message);
             });
-            changeVisibilityStatusBar()
+            if(ficha === null){
+                console.log('error')
+                changeVisibilityStatusBar();
+            }
     }
     
     const saveToken = async (dataApi) => {
@@ -78,36 +120,6 @@ export const SignIn = ({ navigation }) => {
             console.log(error.message);
         }
     }
-    
-    const handleSignIn = () => {
-        const rules = {
-            email: 'required|email',
-            password: 'required|string|min:8|max:40'
-        };
-
-        const messages = {
-            required: field => `se necesita ${field}`,
-            'username.alpha': 'Símbolos no permitidos',
-            'email.email': 'Ingrese un correo válido por favor',
-            'password.min': '¿Contraseña Incorrecta?'
-        };
-
-        try{
-            validateAll(data, rules, messages)
-                .then(async() => {
-                    await userData(data);
-                })
-            .catch(err => {
-                const formatError = {};
-                err.forEach(err => {
-                    formatError[err.field] = err.message;
-                });
-                setSignUpErrors(formatError);
-            });
-        }catch(e){
-            console.log(e.message);
-        }
-    };
   
     return (
         <ScreenContainer>
@@ -148,12 +160,13 @@ export const SignIn = ({ navigation }) => {
                             }
                         </TouchableOpacity>
                     }
-                    />
+                />
                 <Button
                     buttonStyle={{ margin: 10, marginTop: 50 }}
-                    caption={visibleStatusBar ? 'Espere...':'Ingresar'}
-                    onPress={() => handleSignIn(data)}
+                    caption={'Ingresar'}
+                    onPress={changeVisibilityStatusBar}
                     disabled={visibleStatusBar}
+                    loading={visibleStatusBar}
                 />
                 <TouchableOpacity onPress={() => navigation.push('CreateAccount')}>
                 <Text style={{ marginLeft: 100 }}>

@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useEffect, useCallback, useState, useContext } from "react";
 import { View, Text, StyleSheet, } from "react-native";
-import { Button, RadioGroup, Dropdown } from './src/components';
+import { Button } from './src/components';
+import { Card } from 'react-native-elements';
+import { useFocusEffect } from '@react-navigation/native';
 
 import { AuthContext } from "./utils/authContext";
+import AsyncStorage from "@react-native-community/async-storage";
 
 const styles = StyleSheet.create({
   container: {
@@ -70,18 +73,6 @@ export const Search2 = () => (
   </ScreenContainer>
 );
 
-export const Profile = ({ navigation }) => {
-  const { signOut } = React.useContext(AuthContext);
-
-  return (
-    <ScreenContainer>
-      <Text>Profile Screen</Text>
-      <Button caption="Drawer" onPress={() => navigation.toggleDrawer()} />
-      <Button caption="Sign Out" onPress={() => signOut()} />
-    </ScreenContainer>
-  );
-};
-
 export const Splash = () => (
   <ScreenContainer>
     <Text>Loading...</Text>
@@ -90,20 +81,38 @@ export const Splash = () => (
 
 export const Welcome = ({navigation}) => (
   <ScreenContainer>
-    <Text>Bienvenido</Text>
-    <Button
-      caption="Ingresar"
-      onPress={() => navigation.push('SignIn')}
-    />
-    <Button
-      caption="Registrarse"
-      onPress={() => navigation.push('CreateAccount')}
-    />
+    <Card style={styles.container}>
+      <Text>Bienvenido</Text>
+      <Button
+        caption="Ingresar"
+        onPress={() => navigation.push('SignIn')}
+      />
+      <Button
+        caption="Registrarse"
+        onPress={() => navigation.push('NewRegister')}
+      />
+    </Card>
+  </ScreenContainer>
+);
+
+export const NewRegister = ({navigation}) => (
+  <ScreenContainer>
+    <Card style={styles.container}>
+      <Text>Por favor seleccione la opción deseada para crear una nueva cuenta</Text>
+      <Button
+        caption="Soy Paciente"
+        onPress={() => navigation.push('UserRegister', {client_type: 1})}
+      />
+      <Button
+        caption="Soy Doctor"
+        onPress={() => navigation.push('UserRegister', {client_type: 0})}
+      />
+    </Card>
   </ScreenContainer>
 );
 
 export const CreateAccount = () => {
-  const { signUp } = React.useContext(AuthContext);
+  const { signUp } = useContext(AuthContext);
 
   return (
     <ScreenContainer>

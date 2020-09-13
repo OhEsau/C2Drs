@@ -70,6 +70,7 @@ export default function RNSButton(props) {
       </View>
     );
   } else {
+    var activado = props.disabled ? true : false;
     const isPrimary = props.primary || (!props.primary && !props.secondary);
     let gradientArray =
       props.bgGradientStart && props.bgGradientEnd
@@ -77,9 +78,11 @@ export default function RNSButton(props) {
         : undefined;
 
     if (!gradientArray) {
-      gradientArray = isPrimary
-        ? [colors.primaryGradientStart, colors.primaryGradientEnd]
-        : [colors.secondaryGradientStart, colors.secondaryGradientEnd];
+      if(props.disabled){
+        gradientArray = [colors.lightGray, colors.lightGray];
+      }else{
+        gradientArray = [colors.primaryGradientStart, colors.primaryGradientEnd];
+      }
     }
 
     if (props.bgColor) {
@@ -121,6 +124,7 @@ export default function RNSButton(props) {
   return (
     <TouchableOpacity
       accessibilityTraits="button"
+      disabled={activado}
       onPress={props.onPress}
       activeOpacity={0.8}
       style={[
