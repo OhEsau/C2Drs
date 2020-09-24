@@ -53,8 +53,8 @@ export const SignIn = ({ navigation }) => {
         
                 try{
                     validateAll(data, rules, messages)
-                        .then(async() => {
-                            await userData(data);
+                        .then(async () => {
+                            await signIn(data);
                         })
                     .catch(err => {
                         const formatError = {};
@@ -73,53 +73,6 @@ export const SignIn = ({ navigation }) => {
             console.log('...')
         }
     },[visibleStatusBar])
-
-    const userData = async (data) => {
-        const ficha = await fetch('http://3.21.252.81/authentication/token/', {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    email: data.email,
-                    password: data.password,
-                })
-            })
-            .then((response)=> response.json())
-            .then(async (responseData) => {
-                console.log(
-                    "POST Response", "Response Body -> "+ JSON.stringify(responseData)
-                )
-                if(responseData.error!=null || responseData.Error!=null){
-                    responseData.error ? alert('error: ' + JSON.stringify(responseData.error_description)) : null
-                    responseData.Error ? alert('error: ' + JSON.stringify(responseData.Error)) : null
-                    return null;
-                }
-                else{
-                    await saveToken(responseData);
-                    signIn({data});
-                }
-            })
-            .catch(error => {
-                console.log(error.message);
-            });
-            if(ficha === null){
-                console.log('error')
-                changeVisibilityStatusBar();
-            }
-    }
-    
-    const saveToken = async (dataApi) => {
-        try {
-            await AsyncStorage.setItem('datosUsuario', JSON.stringify(dataApi));
-            let jsonValue = await AsyncStorage.getItem('datosUsuario');
-            jsonValue = JSON.parse(jsonValue);
-            console.log('async token: '+JSON.stringify(jsonValue[0].access_token))
-        } catch (error){
-            console.log(error.message);
-        }
-    }
   
     return (
         <ScreenContainer>

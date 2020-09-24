@@ -6,19 +6,29 @@ import { useFocusEffect } from '@react-navigation/native';
 
 import { AuthContext } from "./utils/authContext";
 import AsyncStorage from "@react-native-community/async-storage";
+import {fonts} from './src/styles'
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    padding: 10,
   },
   button: {
     paddingHorizontal: 20,
     paddingVertical: 10,
     marginVertical: 10,
     borderRadius: 5
-  }
+  },
+  contenedor: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    letterSpacing: 1,
+    fontSize: 15,
+    fontFamily: fonts.primaryBold,
+    textAlign: 'center'
+  },
 });
 
 const ScreenContainer = ({ children }) => (
@@ -73,19 +83,21 @@ export const Search2 = () => (
   </ScreenContainer>
 );
 
-export const Splash = () => (
+export const Splash = (props) => (
   <ScreenContainer>
-    <Text>Loading...</Text>
+    <Text style ={styles.contenedor}>{props.message}</Text>
+    <Text style ={styles.contenedor}>Cargando...</Text>
   </ScreenContainer>
 );
 
 export const Welcome = ({navigation}) => (
   <ScreenContainer>
-    <Card style={styles.container}>
-      <Text>Bienvenido</Text>
+    <Card style={styles.container }>
+      <Text style ={styles.contenedor}>Bienvenido</Text>
       <Button
         caption="Ingresar"
         onPress={() => navigation.push('SignIn')}
+        style={{marginVertical: 10}}
       />
       <Button
         caption="Registrarse"
@@ -95,21 +107,24 @@ export const Welcome = ({navigation}) => (
   </ScreenContainer>
 );
 
-export const NewRegister = ({navigation}) => (
-  <ScreenContainer>
+export const NewRegister = ({navigation}) => {
+  return(
+    <ScreenContainer>
     <Card style={styles.container}>
-      <Text>Por favor seleccione la opción deseada para crear una nueva cuenta</Text>
+      <Text style={styles.contenedor}>Por favor seleccione la opción deseada para crear una nueva cuenta</Text>
       <Button
         caption="Soy Paciente"
-        onPress={() => navigation.push('UserRegister', {client_type: 1})}
+        onPress={() => navigation.push('UserRegister', {client_type: 0})}
+        style={{marginVertical: 10}}
       />
       <Button
         caption="Soy Doctor"
-        onPress={() => navigation.push('UserRegister', {client_type: 0})}
+        onPress={() => navigation.push('UserRegister', {client_type: 1})}
       />
     </Card>
-  </ScreenContainer>
-);
+    </ScreenContainer>
+  );
+}
 
 export const CreateAccount = () => {
   const { signUp } = useContext(AuthContext);

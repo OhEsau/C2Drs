@@ -5,6 +5,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 
 import { AuthContext } from "./utils/authContext";
+import {AuthStackScreen} from './Screens/AuthScreen'
 import {
   CreateAccount,
   Search,
@@ -16,46 +17,10 @@ import {
   NewRegister,
 } from "./Screens";
 
-import {SignIn} from './Screens/SigIn'
-import {UserRegister} from './Screens/UserRegister'
 import {Profile} from './Screens/Profile'
 import AsyncStorage from "@react-native-community/async-storage";
 
-const AuthStack = createStackNavigator();
-const AuthStackScreen = () => (
-  <AuthStack.Navigator>
-    <AuthStack.Screen
-      name="Welcome"
-      component={Welcome}
-      options={{ title: "Bienvenido" }}
-    />
-    <AuthStack.Screen
-      name="SignIn"
-      component={SignIn}
-      options={{ title: "Iniciar Sesión" }}
-    />
-    <AuthStack.Screen
-      name="NewRegister"
-      component={NewRegister}
-      options={{ title: "Nuevo Registro" }}
-    />
-    <AuthStack.Screen
-      name="CreateAccount"
-      component={CreateAccount}
-      options={{ title: "Crear cuenta" }}
-    />
-    <AuthStack.Screen
-      name="UserRegister"
-      component={UserRegister}
-      options={{ title: "Registrar Nuevo Usuario" }}
-    />
-    <AuthStack.Screen
-      name="Profile"
-      component={Profile}
-      options={{ title: "Inicio" }}
-    />
-  </AuthStack.Navigator>
-);
+import {iniciarSesion, registrarPaciente, registrarDoctor} from './src/helpers/conexiones'
 
 const Tabs = createBottomTabNavigator();
 const HomeStack = createStackNavigator();
@@ -97,23 +62,39 @@ const TabsScreen = () => (
 
 const Drawer = createDrawerNavigator();
 const DrawerScreen = () => (
-  <Drawer.Navigator initialRouteName="Profile">
+  <Drawer.Navigator initialRouteName="Home">
     <Drawer.Screen name="Home" component={TabsScreen} />
     <Drawer.Screen name="Profile" component={ProfileStackScreen} />
   </Drawer.Navigator>
 );
 
+const DrawerScreenDoctor = () => (
+  <Drawer.Navigator initialRouteName="Profile">
+    <Drawer.Screen name="Home" component={TabsScreen} />
+    <Drawer.Screen name="Profile" component={ProfileStackScreen} />
+  </Drawer.Navigator>
+);
 const RootStack = createStackNavigator();
-const RootStackScreen = ({ userToken }) => (
+const RootStackScreen = ({ userToken, client_type }) => (
   <RootStack.Navigator headerMode="none">
     {userToken ? (
-      <RootStack.Screen
-        name="App"
-        component={DrawerScreen}
-        options={{
-          animationEnabled: false
-        }}
-      />
+      client_type ? (
+        <RootStack.Screen
+          name="App"
+          component={DrawerScreen}
+          options={{
+            animationEnabled: false
+          }}
+        />
+      ) : (
+        <RootStack.Screen
+          name="App"
+          component={DrawerScreenDoctor}
+          options={{
+            animationEnabled: false
+          }}
+        />
+      )
     ) : (
       <RootStack.Screen
         name="Auth"
@@ -129,26 +110,72 @@ const RootStackScreen = ({ userToken }) => (
 export default () => {
   const [isLoading, setIsLoading] = React.useState(true);
   const [userToken, setUserToken] = React.useState(null);
+  const [message, setMessage] = React.useState('Espere un segundo por favor');
+  const [client_type, setClientType] = React.useState('');
 
   const authContext = React.useMemo(() => {
     return {
-      signIn: () => {
+      signIn: async (data) => {
+        setIsLoading(true);
+        try {
+          setMessage('Iniciando Sesión')
+          const acceso = await iniciarSesion(data);
+          if(acceso){
+            setMessage('Esperando Token')
+            let jsonValue = await AsyncStorage.getItem('datosUsuario');
+            jsonValue = JSON.parse(jsonValue);
+            setUserToken(jsonValue[0].access_token);
+            setClientType(jsonValue[1].client_type);
+            console.log('cliente: ' + jsonValue[1].client_type);
+            setIsLoading(false);
+            alert('Acceso completado');
+          }
+          else{
+            alert('Inicio Fallido')
+          }
+          setIsLoading(false);
+        } catch(e){
+          console.log(e)
+        }
         setIsLoading(false);
-        setUserToken("asdf");
       },
-      signUp: () => {
+      signUpClient: async (data) => {
+        setIsLoading(true)
+        setMessage('Registrando nuevo usuario')
+        try{
+          const registro = await registrarPaciente(data);
+          setMessage('Regresando al menú')
+          alert('Registro Exitoso!')
+        } catch(e){
+          console.log(e);
+          alert('Fallo el Registro');
+        }
         setIsLoading(false);
-        setUserToken("asdf");
+      },
+      signUpDoctor: async (data1, data2) => {
+        console.log('primero: ' +data1 + 'segundo' + data2)
+        setIsLoading(true)
+        setMessage('Registrando nuevo Medico')
+        try{
+          const registro = await registrarDoctor(data1, data2);
+          setMessage('Regresando al menú')
+          alert('Registro Exitoso!')
+        } catch(e){
+          console.log(e);
+          alert('Fallo el Registro');
+        }
+        setIsLoading(false);
       },
       signOut: async () => {
-        setIsLoading(false);
-        setUserToken(null);
+        setIsLoading(true);
+        setMessage('Saliendo de la aplicación')
         try{
-          await AsyncStorage.removeItem('token')
-          console.log('token eliminado')
+          await AsyncStorage.removeItem('datosUsuario')
+          setUserToken(null);
         } catch (e){
           console.log(e)
         }
+        setIsLoading(false)
       }
     };
   }, []);
@@ -160,13 +187,13 @@ export default () => {
   }, []);
 
   if (isLoading) {
-    return <Splash />;
+    return <Splash message = {message}/>;
   }
 
   return (
     <AuthContext.Provider value={authContext}>
       <NavigationContainer>
-        <RootStackScreen userToken={userToken} />
+        <RootStackScreen userToken={userToken} client_type={client_type}/>
       </NavigationContainer>
     </AuthContext.Provider>
   );
