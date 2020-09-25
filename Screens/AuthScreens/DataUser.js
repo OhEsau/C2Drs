@@ -1,15 +1,15 @@
 import React, {useState, useContext, useEffect} from "react";
 import { View, Text, StyleSheet, ScrollView} from "react-native";
-import { Button } from '../src/components';
+import { Button } from '../../src/components';
 import { Card, Input } from 'react-native-elements';
 import DatePicker from 'react-native-datepicker';
 import Dialog from 'react-native-dialog';
-import { AuthContext } from "../utils/authContext";
+import { AuthContext } from "../../utils/authContext";
 import {Picker} from '@react-native-community/picker';
 
 import { validateAll } from 'indicative/validator';
 import { sanitize } from 'indicative/sanitizer'
-import {styles} from '../utils/styles';
+import {styles} from '../../utils/styles';
 
 
 const ScreenContainer = ({ children }) => (

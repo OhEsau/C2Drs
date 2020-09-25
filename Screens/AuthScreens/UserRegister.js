@@ -1,10 +1,10 @@
 import React, {useState, useContext, useEffect} from "react";
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView} from "react-native";
-import { Button } from '../src/components';
+import { Button } from '../../src/components';
 import { Card, Input } from 'react-native-elements';
 import { validateAll } from 'indicative/validator';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {styles} from '../utils/styles';
+import {styles} from '../../utils/styles';
 
 const ScreenContainer = ({ children }) => (
   <View style={styles.container}>{children}</View>

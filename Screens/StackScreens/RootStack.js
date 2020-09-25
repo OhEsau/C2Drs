@@ -1,7 +1,7 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import {DrawerScreen, DrawerScreenDoctor} from './Drawer'
-import {AuthStackScreen} from '../AuthScreen'
+import {AuthStackScreen} from './AuthStack'
 
 const RootStack = createStackNavigator();
 export const RootStackScreen = ({ userToken, client_type }) => (

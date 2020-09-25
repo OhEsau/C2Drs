@@ -1,10 +1,10 @@
 import React, { useEffect, useCallback, useState, useContext } from "react";
 import { View, Text, StyleSheet, } from "react-native";
-import { Button } from '../src/components';
-import {styles} from '../utils/styles';
+import { Button } from '../../src/components';
+import {styles} from '../../utils/styles';
 
-import { AuthContext } from "../utils/authContext";
-import {restoreAsyncData} from '../utils/conexiones';
+import { AuthContext } from "../../utils/authContext";
+import {restoreAsyncData} from '../../utils/conexiones';
 
 const ScreenContainer = ({ children }) => (
   <View style={styles.container}>{children}</View>

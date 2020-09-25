@@ -3,10 +3,10 @@ import { View, Text, StyleSheet, TouchableOpacity} from "react-native";
 import { Input, Card } from 'react-native-elements';
 import { validateAll } from 'indicative/validator';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { Button } from '../src/components';
-import {styles} from '../utils/styles';
+import { Button } from '../../src/components';
+import {styles} from '../../utils/styles';
 
-import { AuthContext } from "../utils/authContext";
+import { AuthContext } from "../../utils/authContext";
 
 const ScreenContainer = ({ children }) => (
     <View style={styles.container}>{children}</View>

@@ -4,24 +4,17 @@ import {
     CreateAccount,
     Welcome,
     NewRegister,
-  } from "../BaseScreens";
+  } from "../../BaseScreens";
+import {header} from '../../utils/styles'
 
-import {SignIn} from '../Screens/SigIn'
-import {UserRegister} from '../Screens/UserRegister'
-import {DataUser} from '../Screens/DataUser'
-import {DoctorData} from '../Screens/DoctorData'
+import {SignIn} from '../AuthScreens/SigIn'
+import {UserRegister} from '../AuthScreens/UserRegister'
+import {DataUser} from '../AuthScreens/DataUser'
+import {DoctorData} from '../AuthScreens/DoctorData'
 
 const AuthStack = createStackNavigator();
 export const AuthStackScreen = () => (
-  <AuthStack.Navigator screenOptions ={{
-    headerStyle: {
-      backgroundColor: '#44C2CF',
-    },
-    headerTintColor: '#fff',
-    headerTitleStyle: {
-      fontWeight: 'bold',
-    },
-  }}>
+  <AuthStack.Navigator screenOptions ={header}>
     <AuthStack.Screen
       name="Welcome"
       component={Welcome}

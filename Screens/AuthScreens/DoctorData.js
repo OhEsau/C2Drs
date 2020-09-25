@@ -1,6 +1,6 @@
 import React, {useState, useContext, useEffect} from "react";
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
-import { Button } from '../src/components';
+import { Button } from '../../src/components';
 import { Card, Input } from 'react-native-elements';
 import Dialog from 'react-native-dialog';
 
@@ -8,12 +8,12 @@ import { validateAll } from 'indicative/validator';
 import { sanitize } from 'indicative/sanitizer'
 
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {styles} from '../utils/styles';
+import {styles} from '../../utils/styles';
 import {Picker} from '@react-native-community/picker';
 import AsyncStorage from '@react-native-community/async-storage'
-import { AuthContext } from "../utils/authContext";
+import { AuthContext } from "../../utils/authContext";
 
-import {verificarCedula} from '../utils/conexiones'
+import {verificarCedula} from '../../utils/conexiones'
 
 const ScreenContainer = ({ children }) => (
   <View style={styles.container}>{children}</View>
