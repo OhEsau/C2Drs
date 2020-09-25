@@ -1,13 +1,12 @@
 import React, {useState, useContext, useEffect} from "react";
 import { View, Text, StyleSheet, TouchableOpacity} from "react-native";
-import AsyncStorage from '@react-native-community/async-storage'
 import { Input, Card } from 'react-native-elements';
 import { validateAll } from 'indicative/validator';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Button } from '../src/components';
+import {styles} from '../utils/styles';
 
 import { AuthContext } from "../utils/authContext";
-import { update } from "lodash";
 
 const ScreenContainer = ({ children }) => (
     <View style={styles.container}>{children}</View>
@@ -130,30 +129,3 @@ export const SignIn = ({ navigation }) => {
         </ScreenContainer>
     );
   };
-
-const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      justifyContent: "center",
-      alignItems: "center"
-    },
-    button: {
-      paddingHorizontal: 20,
-      paddingVertical: 10,
-      marginVertical: 10,
-      borderRadius: 5
-    },
-    action: {
-        flexDirection: 'row',
-        marginTop: 10,
-        borderBottomWidth: 1,
-        borderBottomColor: '#f2f2f2',
-        paddingBottom: 5
-    },
-    textInput: {
-        flex: 1,
-        marginTop: Platform.OS === 'ios' ? 0 : -12,
-        paddingLeft: 10,
-        color: '#05375a',
-    },
-});

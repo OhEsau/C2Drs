@@ -2,10 +2,8 @@ import React, { useEffect, useCallback, useState, useContext } from "react";
 import { View, Text, StyleSheet, } from "react-native";
 import { Button } from './src/components';
 import { Card } from 'react-native-elements';
-import { useFocusEffect } from '@react-navigation/native';
 
 import { AuthContext } from "./utils/authContext";
-import AsyncStorage from "@react-native-community/async-storage";
 import {fonts} from './src/styles'
 
 const styles = StyleSheet.create({

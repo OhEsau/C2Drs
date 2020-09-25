@@ -8,12 +8,12 @@ import { validateAll } from 'indicative/validator';
 import { sanitize } from 'indicative/sanitizer'
 
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {fonts} from '../src/styles'
+import {styles} from '../utils/styles';
 import {Picker} from '@react-native-community/picker';
 import AsyncStorage from '@react-native-community/async-storage'
 import { AuthContext } from "../utils/authContext";
 
-import {verificarCedula} from '../src/helpers/conexiones'
+import {verificarCedula} from '../utils/conexiones'
 
 const ScreenContainer = ({ children }) => (
   <View style={styles.container}>{children}</View>
@@ -434,6 +434,7 @@ export const DoctorData = ({navigation, route}) => {
                   errorMessage={SignUpErrors ? SignUpErrors.name : null}
                   rightIcon={ <IconoAyuda ayuda={'Cedula'}/> }
                 />
+                <Text style={styles.contenedor} >Título: </Text>
                 <Picker 
                   selectedValue={postgraduate}
                   onValueChange={setPostgraudate}
@@ -450,6 +451,14 @@ export const DoctorData = ({navigation, route}) => {
                   textContentType={'none'}
                   autoCapitalize={'characters'}
                 />
+                <Picker 
+                  selectedValue={speciality}
+                  onValueChange={setSpeciality}
+                >
+                  <Picker.Item label="Doctor" value="Doctor" />
+                  <Picker.Item label="Doctor Especializado" value="Especializado" />
+                  <Picker.Item label="Médico General" value="Medico" />
+                </Picker>
                 <Input
                   placeholder="Especialidad"
                   disabled={true}
@@ -490,6 +499,7 @@ export const DoctorData = ({navigation, route}) => {
                   disabled={activado} 
                   onPress={()=>validarInfo()} 
                   caption="Siguiente"
+                  style={{marginVertical: 10}}
                 />
                 <Button
                   onPress={level1} 
@@ -536,25 +546,3 @@ export const DoctorData = ({navigation, route}) => {
     </ScreenContainer>
   );
 }
-
-const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      justifyContent: "center",
-      alignItems: "center"
-    },
-    button: {
-      paddingHorizontal: 20,
-      paddingVertical: 10,
-      marginVertical: 10,
-      borderRadius: 5
-    },
-    contenedor: {
-      justifyContent: 'center',
-      alignItems: 'center',
-      letterSpacing: 1,
-      fontSize: 15,
-      fontFamily: fonts.primaryBold,
-      textAlign: 'center'
-    },
-  });

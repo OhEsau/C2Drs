@@ -162,3 +162,13 @@ export async function registrarDoctor (dataSimple, dataProfesional) {
             });
             return true;
 }
+
+export async function restoreAsyncData() {
+    try{
+      const datos = await JSON.parse( await AsyncStorage.getItem('datosUsuario'));
+      return datos;
+    } catch(e){
+      console.log('error en funcion datosUsuario')
+      alert(e)
+    }
+}

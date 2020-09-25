@@ -4,29 +4,7 @@ import { Button } from '../src/components';
 import { Card, Input } from 'react-native-elements';
 import { validateAll } from 'indicative/validator';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {fonts} from '../src/styles'
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center"
-  },
-  button: {
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    marginVertical: 10,
-    borderRadius: 5
-  },
-  contenedor: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    letterSpacing: 1,
-    fontSize: 15,
-    fontFamily: fonts.primaryBold,
-    textAlign: 'center'
-  },
-});
+import {styles} from '../utils/styles';
 
 const ScreenContainer = ({ children }) => (
   <View style={styles.container}>{children}</View>

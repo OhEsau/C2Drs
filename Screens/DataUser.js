@@ -9,8 +9,7 @@ import {Picker} from '@react-native-community/picker';
 
 import { validateAll } from 'indicative/validator';
 import { sanitize } from 'indicative/sanitizer'
-import Icon from 'react-native-vector-icons/FontAwesome';
-import {fonts} from '../src/styles'
+import {styles} from '../utils/styles';
 
 
 const ScreenContainer = ({ children }) => (
@@ -270,25 +269,3 @@ export const DataUser = ({navigation, route}) => {
     </ScrollView>
     )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  button: {
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    marginVertical: 10,
-    borderRadius: 5
-  },
-  contenedor: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    letterSpacing: 1,
-    fontSize: 15,
-    fontFamily: fonts.primaryBold,
-    textAlign: 'center'
-  },
-});

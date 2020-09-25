@@ -6,8 +6,8 @@ const ScreenContainer = ({ children }) => (
     <View style={styles.container}>{children}</View>
   );
 
-export const ExpedienteDoctor = () => (
+export const Doctores = () => (
     <ScreenContainer>
-      <Text>Expedientes</Text>
+      <Text>Mis Doctores</Text>
     </ScreenContainer>
 );

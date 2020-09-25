@@ -4,7 +4,7 @@ import {
     CreateAccount,
     Welcome,
     NewRegister,
-  } from "../Screens";
+  } from "../BaseScreens";
 
 import {SignIn} from '../Screens/SigIn'
 import {UserRegister} from '../Screens/UserRegister'
