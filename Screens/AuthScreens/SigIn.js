@@ -15,8 +15,8 @@ const ScreenContainer = ({ children }) => (
 export const SignIn = ({ navigation }) => {
     const { signIn } = useContext(AuthContext);
 
-    const [emailAddress, setemailAddress] = useState('');
-    const [password, setPassword] = useState('');
+    const [emailAddress, setemailAddress] = useState('esauolvera@live.com');
+    const [password, setPassword] = useState('1234qwer');
     const [textEntry, setEntry] = useState(true);
     const [visibleStatusBar, setVisibleStatusBar] = useState(false);
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useCallback, useState, useContext } from "react";
-import { View, Text, StyleSheet, } from "react-native";
+import { View, Text, StyleSheet, ActivityIndicator} from "react-native";
 import { Button } from './src/components';
 import { Card } from 'react-native-elements';
 
@@ -85,6 +85,7 @@ export const Splash = (props) => (
   <ScreenContainer>
     <Text style ={styles.contenedor}>{props.message}</Text>
     <Text style ={styles.contenedor}>Cargando...</Text>
+    <ActivityIndicator size='large' color='#44C2CF'/>
   </ScreenContainer>
 );
 

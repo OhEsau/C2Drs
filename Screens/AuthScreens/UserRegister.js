@@ -11,9 +11,9 @@ const ScreenContainer = ({ children }) => (
 );
 
 export const UserRegister = ({navigation, route}) => {
-    const [emailAddress, setemailAddress] = useState('');
+    const [emailAddress, setemailAddress] = useState('test@gmail.com');
     const [password, setPassword] = useState('1234qwer');
-    const [confirm_email, setConfirmEmail] = useState('');
+    const [confirm_email, setConfirmEmail] = useState('test@gmail.com');
     const [confirm_password, setConfirmPass] = useState('1234qwer');
     const [SignUpErrors, setSignUpErrors] = useState({});
     const [textEntry, setEntry] = useState(true);

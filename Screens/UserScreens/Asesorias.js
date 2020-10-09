@@ -8,8 +8,8 @@ const ScreenContainer = ({ children }) => (
 );
 
 const IconButton = ({title, order}) => (
-    <View>
-        <View style={{alignContent: 'center', alignItems: 'center', height: 100, width:100, marginHorizontal: 20, marginVertical: 20}}>
+    <View style={{alignContent: 'stretch', alignItems: 'center', height: 100, width:100, marginHorizontal: 20, marginVertical: 20}}>
+        <View>
             <TouchableOpacity style={{backgroundColor:'#44C2CF'}} onPress={order}>
                 <Image source={require('../../assets/doctor.png')} style={{height: 100, width:100}}/>
             </TouchableOpacity>
@@ -21,43 +21,19 @@ const IconButton = ({title, order}) => (
 export const Asesorias = ({navigation}) => {
     return(
     <ScreenContainer>
-        <ScrollView>
-        <View style={{flexDirection: 'column'}}>
-            <View style={{flexDirection: 'row'}}>
-                <IconButton title='Cirugía Plástica' order={'plastic'}/>
-                <IconButton title='Psicología' order={()=>navigation.push('Lista', {filter: 'psico'})}/>
-            </View>
-        </View>
-        <View style={{flexDirection: 'column'}}>
-            <View style={{flexDirection: 'row'}}>
-                <IconButton title='Nutrición' order={'nutri'}/>
-                <IconButton title='Endocrinología' order={'endocrino'}/>
-            </View>
-        </View>
-        <View style={{flexDirection: 'column'}}>
-            <View style={{flexDirection: 'row'}}>
-                <IconButton title='Cardiología' order={'cardio'}/>
-                <IconButton title='Psicología SAP' order={'psiSAP'}/>
-            </View>
-        </View>
-        <View style={{flexDirection: 'column'}}>
-            <View style={{flexDirection: 'row'}}>
-                <IconButton title='Pediatría' order={'pediatria'}/>
-                <IconButton title='Neumonología' order={'neumo'}/>
-            </View>
-        </View>
-        <View style={{flexDirection: 'column'}}>
-            <View style={{flexDirection: 'row'}}>
-                <IconButton title='Dermatología' order={'derma'}/>
-                <IconButton title='Otorrinología' order={'otorrino'}/>
-            </View>
-        </View>
-        <View style={{flexDirection: 'column'}}>
-            <View style={{flexDirection: 'row'}}>
-                <IconButton title='Terapia de lenguaje' order={'lenguaje'}/>
-                <IconButton title='Oncología' order={'onco'}/>
-            </View>
-        </View>
+        <ScrollView style={{alignContent: 'center'}}>
+            <IconButton title='Cirugía Plástica' order={()=>navigation.push('Lista', {filter: 'plastic'})}/>
+            <IconButton title='Psicología' order={()=>navigation.push('Lista', {filter: 'psico'})}/>
+            <IconButton title='Nutrición' order={()=>navigation.push('Lista', {filter: 'nutri'})}/>
+            <IconButton title='Endocrinología' order={()=>navigation.push('Lista', {filter: 'endocrino'})}/>
+            <IconButton title='Cardiología' order={()=>navigation.push('Lista', {filter: 'cardio'})}/>
+            <IconButton title='Psicología SAP' order={()=>navigation.push('Lista', {filter: 'psicoSAP'})}/>
+            <IconButton title='Pediatría' order={()=>navigation.push('Lista', {filter: 'pediatr'})}/>
+            <IconButton title='Neumonología' order={()=>navigation.push('Lista', {filter: 'neumo'})}/>
+            <IconButton title='Dermatología' order={()=>navigation.push('Lista', {filter: 'derma'})}/>
+            <IconButton title='Otorrinología' order={()=>navigation.push('Lista', {filter: 'otorrino'})}/>
+            <IconButton title='Terapia de lenguaje' order={()=>navigation.push('Lista', {filter: 'lenguaje'})}/>
+            <IconButton title='Oncología' order={()=>navigation.push('Lista', {filter: 'onco'})}/>
         </ScrollView>
     </ScreenContainer>
     );

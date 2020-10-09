@@ -1,5 +1,5 @@
 import {AsesoriasDoctor} from './Asesorias'
-import {ConsultasDoctor} from './Consultas'
+import {ConsultasDoctor} from './ConsultasDoctor'
 import {ExpedienteDoctor} from './Expediente'
 import {HomeDoctor} from './Home'
 import {PerfilDoctor} from './Perfil'

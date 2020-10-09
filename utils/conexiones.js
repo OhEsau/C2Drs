@@ -54,7 +54,6 @@ export async function registrarPaciente (data) {
             return true;
 }
 
-
 export async function iniciarSesion(data){
     await fetch('https://conn2drs.herokuapp.com/authentication/token/', {
         method: 'POST',
@@ -171,4 +170,79 @@ export async function restoreAsyncData() {
       console.log('error en funcion datosUsuario')
       alert(e)
     }
+}
+
+export async function listaDoctores(token) {
+    const lista = await fetch('https://conn2drs.herokuapp.com/profile/listall/', {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token,
+        }
+    })
+    .then(response => response.json())
+    .then(async (responseJson) => {
+        return responseJson;
+    })
+    .catch(error => {
+        console.log(error);
+        return null
+    })
+
+    return lista
+}
+
+export async function restoreAsyncLista() {
+    try{
+      const datos = await JSON.parse( await AsyncStorage.getItem('listaDoctores'));
+      return datos;
+    } catch(e){
+      console.log('error en funcion datosUsuario')
+      alert(e)
+    }
+}
+
+export async function crearCitaApi(data, token) {
+    await fetch('https://conn2drs.herokuapp.com/citas/create/',{
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token,
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+        .then(responseData => {
+            console.log(
+                    "POST Response", "Response Body -> "+ JSON.stringify(responseData)
+                )
+            alert('Cita registrada!')
+    })
+    .catch((error) =>{
+        console.log(error)
+        alert('cita fallida')
+    })
+}
+
+export async function listaCitas(token) {
+    const datos = await fetch('https://conn2drs.herokuapp.com/citas/list/', {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token,
+        }
+    })
+    .then(response => response.json())
+    .then(async (responseJson) => {
+        return(responseJson);
+    })
+    .catch(error => {
+        console.log(error);
+        return null
+    })
+
+    return datos;
 }

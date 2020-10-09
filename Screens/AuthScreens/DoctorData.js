@@ -19,29 +19,29 @@ const ScreenContainer = ({ children }) => (
   <View style={styles.container}>{children}</View>
 );
 
-export const DoctorData = ({navigation, route}) => {
+export const DoctorData = ({route}) => {
   const { signUpDoctor } = useContext(AuthContext);
   const [SignUpErrors, setSignUpErrors] = useState({});
   
   const [tarjetaProfesional, setTarjetaProfesional] = useState(true);
-  const [curp, setCurp] = useState('');
-  const [rfc, setRFC] =useState('');
-  const [cfdi, setCFDI] = useState('');
-  const [domicilio, setDomicilio] = useState('');
-  const [domicilioParticular, setDomicilioParticular] = useState('');
-  const [contactPhone, setContactPhone] = useState('');
-  const [reference, setReference] = useState('');
+  const [curp, setCurp] = useState('aaaa000000xxxxxx00');
+  const [rfc, setRFC] =useState('aaaa000000xxx');
+  const [cfdi, setCFDI] = useState('qwerasd0000');
+  const [domicilio, setDomicilio] = useState('Conocido 1');
+  const [domicilioParticular, setDomicilioParticular] = useState('Conocido Particular 1');
+  const [contactPhone, setContactPhone] = useState('1234567890');
+  const [reference, setReference] = useState('Cerca');
 
   const [tarjetaBanco, setTarjetaBanco] = useState(false);
-  const [name_account_owner, setAccountOwner] = useState('');
-  const [bank, setBank] = useState('');
-  const [account, setAccount] = useState('');
-  const [clabe, setClabe] = useState('');
+  const [name_account_owner, setAccountOwner] = useState(route.params.name);
+  const [bank, setBank] = useState('Banco gidotas');
+  const [account, setAccount] = useState('1234567890');
+  const [clabe, setClabe] = useState('1234567890');
 
   const [tarjetaCedula, setTarjetaCedula] = useState(false);
   const [cedula, setCedula] = useState('');
   const [university, setUniversity] = useState('');
-  const [postgraduate, setPostgraudate] = useState('Doctor');
+  const [postgraduate, setPostgraudate] = useState('Oncólogia');
   const [speciality, setSpeciality] = useState('');
   const [nameCedula, setNameCedula] = useState('');
   const [firstNameCedula, setFirstNameCedula] = useState('');
@@ -152,21 +152,21 @@ export const DoctorData = ({navigation, route}) => {
 
   function validarInfo(){
     const rules = {
-        curp: 'required|string|max:40',
-        rfc: 'required|string|max:40',
-        cfdi: 'required|string|max:40',
-        domicilio: 'required|string|max:40',
-        domicilioParticular: 'required|string|max:40',
-        contactPhone: 'required|string|max:40',
-        reference: 'required|string|max:40',
-        name_account_owner: 'required|string|max:40',
-        bank: 'required|string|max:40',
-        account: 'required|string|max:40',
-        clabe: 'required|string|max:40',
-        cedula: 'required|string|max:40',
-        university: 'required|string|max:40',
-        speciality: 'required|string|max:40',
-        postgraduate: 'required|string|max:40',
+        curp: 'required',
+        rfc: 'required',
+        cfdi: 'required',
+        domicilio: 'required',
+        domicilioParticular: 'required',
+        contactPhone: 'required',
+        reference: 'required',
+        name_account_owner: 'required',
+        bank: 'required',
+        account: 'required',
+        clabe: 'required',
+        cedula: 'required',
+        university: 'required',
+        speciality: 'required',
+        postgraduate: 'required',
     }
 
     const messages = {
@@ -439,10 +439,16 @@ export const DoctorData = ({navigation, route}) => {
                   selectedValue={postgraduate}
                   onValueChange={setPostgraudate}
                 >
-                  <Picker.Item label="Doctor" value="Doctor" />
-                  <Picker.Item label="Doctor Especializado" value="Especializado" />
-                  <Picker.Item label="Médico General" value="Medico" />
+                  <Picker.Item label="Médicina General" value="Medicina General" />
+                  <Picker.Item label="Nutriólogia" value="Nutriologia" />
+                  <Picker.Item label="Psicólogía" value="Psicologia" />
+                  <Picker.Item label="Oncología" value="Oncologia" />
+                  <Picker.Item label="Cirujía Plástica" value="Cirujia Plastica"/>
                 </Picker>
+                <Button 
+                  onPress={()=>comprobarCedula(cedula)} 
+                  caption="Verificar Cedula"
+                />
                 <Input
                   placeholder="Universidad"
                   disabled={true}
@@ -490,10 +496,6 @@ export const DoctorData = ({navigation, route}) => {
                   onChangeText={setLastNameCedula}
                   textContentType={'none'}
                   autoCapitalize={'characters'}
-                />
-                <Button 
-                  onPress={()=>comprobarCedula(cedula)} 
-                  caption="Verificar Cedula"
                 />
                 <Button
                   disabled={activado} 

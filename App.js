@@ -29,7 +29,6 @@ export default () => {
             setClientType(jsonValue[1].client_type);
             console.log('cliente: ' + jsonValue[1].client_type);
             setIsLoading(false);
-            alert('Acceso completado');
           }
           else{
             alert('Inicio Fallido')

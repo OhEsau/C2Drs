@@ -9,7 +9,7 @@ import {Splash} from '../../BaseScreens';
 const ScreenContainer = ({ children }) => (
     <View style={styles.container}>{children}</View>
 );
-export const Consultas = () => {
+export const ConsultasDoctor = () => {
   const [data, setData] = useState([]);
   const [dataList, setDataList] = useState([]);
   const [newDataList, setNewDataList] = useState([]);
@@ -52,7 +52,7 @@ export const Consultas = () => {
   useEffect(()=>{
     function crearLista(){
       dataList.forEach((x)=>{
-        if(x!==null){
+        if(x!==null && x.doctor.user.name===data[1].name){
           setNewDataList(arreglo => [...arreglo, {
             id: x.id,
             status : x.accept,
@@ -71,7 +71,13 @@ export const Consultas = () => {
       setInfo(true);
     }
     
-    crearLista();
+    if(step){
+      crearLista();
+    }
+    else{
+      console.log('cargando lista')
+    }
+    
     
   }, [step])
 
@@ -81,11 +87,6 @@ export const Consultas = () => {
     };
     handleChange(pendent)
   }, [overPendent])
-
-  const crearFicha = (item) =>{
-    setPendent(item);
-    toggleOverlayPendent();
-  }
 
   const toggleOverlayPendent= () =>{
     setOverPendent(!overPendent)
@@ -102,7 +103,7 @@ export const Consultas = () => {
   const ListaCita = ({item}) =>{
     if(item.status===null){
       return (
-        <ListItem onPress={()=> crearFicha(item)}>
+        <ListItem onPress={()=> toggleOverlayPendent(item)}>
           <View style={{flexDirection:'column'}}>
           <View style={{flexDirection:'row'}}>
             <Avatar 
@@ -130,7 +131,7 @@ export const Consultas = () => {
       );
     } else if(item.status===true){
       return (
-        <ListItem onPress={()=> crearFicha(item)}>
+        <ListItem onPress={()=> toggleOverlayPendent(item)}>
           <View style={{flexDirection:'column'}}>
           <View style={{flexDirection:'row'}}>
             <Avatar 
@@ -159,7 +160,7 @@ export const Consultas = () => {
     
     } else if(item.status===false){
       return (
-        <ListItem onPress={()=> crearFicha()}>
+        <ListItem onPress={()=> toggleOverlayPendent(item)}>
           <View style={{flexDirection:'column'}}>
           <View style={{flexDirection:'row'}}>
             <Avatar 

@@ -26,8 +26,8 @@ export const DataUser = ({navigation, route}) => {
     const [last_name, setLastname] = useState('');
     const [first_name, setFirstName] = useState('');
     const [gender, setGender] = useState(2);
-    const [birthday, setBirthday] = useState('01/01/2020');
-    const [phone, setPhone] = useState('');
+    const [birthday, setBirthday] = useState('01/01/1984');
+    const [phone, setPhone] = useState('1234567890');
     
     const [visible, setVisible] = useState(false)
     const [mostrar, setMostrar] =useState(false)
