@@ -60,3 +60,4 @@ jest_coverage
 
 # CocoaPods
 /ios/Pods/
+android/java_pid11272.hprof
