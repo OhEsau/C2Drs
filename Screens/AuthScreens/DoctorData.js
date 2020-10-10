@@ -263,6 +263,7 @@ export const DoctorData = ({route}) => {
           <Text style={styles.contenedor}>*Estos datos son opcionales y puede registrarlos después</Text>
           <Card.Divider />
             <Input
+              label="*C.U.R.P"
               placeholder="*C.U.R.P"
               value={curp}
               onChangeText={setCurp}
@@ -276,6 +277,7 @@ export const DoctorData = ({route}) => {
               }
             />
             <Input
+              label="*R.F.C"
               placeholder="*R.F.C"
               value={rfc}
               onChangeText={setRFC}
@@ -289,6 +291,7 @@ export const DoctorData = ({route}) => {
               }
             />
             <Input
+              label="*Folio Fiscal"
               placeholder="*Folio Fiscal"
               value={cfdi}
               onChangeText={setCFDI}
@@ -302,6 +305,7 @@ export const DoctorData = ({route}) => {
               }
             />
             <Input
+              label="*Domicilio Fiscal"
               placeholder="*Domicilio Fiscal"
               value={domicilio}
               onChangeText={setDomicilio}
@@ -313,6 +317,7 @@ export const DoctorData = ({route}) => {
               rightIcon={ <IconoAyuda ayuda={'Domicilio_Fiscal'}/> }
             />
             <Input
+              label="*Domicilio Particular"
               placeholder="*Domicilio Particular"
               value={domicilioParticular}
               onChangeText={setDomicilioParticular}
@@ -324,6 +329,7 @@ export const DoctorData = ({route}) => {
               rightIcon={ <IconoAyuda ayuda={'Domicilio_Particular'}/> }
             />
             <Input
+              label="*Teléfono de Contacto"
               placeholder="*Teléfono de Contacto"
               value={contactPhone}
               onChangeText={setContactPhone}
@@ -335,6 +341,7 @@ export const DoctorData = ({route}) => {
               rightIcon={ <IconoAyuda ayuda={'Contacto'}/> }
             />
             <Input
+              label="*Referencia"
               placeholder="*Referencia"
               value={reference}
               onChangeText={setReference}
@@ -363,6 +370,7 @@ export const DoctorData = ({route}) => {
                 <Text style={styles.contenedor}>*Estos datos son opcionales y puede registrarlos después</Text>
                 <Card.Divider />
                 <Input
+                  label="*Titular de la cuenta"
                   placeholder="*Titular de la cuenta"
                   value={name_account_owner}
                   onChangeText={setAccountOwner}
@@ -374,6 +382,7 @@ export const DoctorData = ({route}) => {
                   rightIcon={ <IconoAyuda ayuda={'Titular'}/> }
                 />
                 <Input
+                  label="*Nombre del Banco"
                   placeholder="*Nombre del Banco"
                   value={bank}
                   onChangeText={setBank}
@@ -385,6 +394,7 @@ export const DoctorData = ({route}) => {
                   rightIcon={ <IconoAyuda ayuda={'Banco'}/> }
                 />
                 <Input
+                  label="*Número de Cuenta"
                   placeholder="*Número de Cuenta"
                   value={account}
                   onChangeText={setAccount}
@@ -396,6 +406,7 @@ export const DoctorData = ({route}) => {
                   rightIcon={ <IconoAyuda ayuda={'Cuenta'}/> }
                 />
                 <Input
+                  label="*Número CLABE"
                   placeholder="*Número CLABE"
                   value={clabe}
                   onChangeText={setClabe}
@@ -424,6 +435,7 @@ export const DoctorData = ({route}) => {
                 <Card.Title>Registro de Cédula Profesional</Card.Title>
                 <Card.Divider />
                 <Input
+                  label="Cédula Profesional Federal"
                   placeholder="Cédula Profesional Federal"
                   value={cedula}
                   onChangeText={setCedula}
@@ -458,14 +470,25 @@ export const DoctorData = ({route}) => {
                   autoCapitalize={'characters'}
                 />
                 <Picker 
+                  label="Título"
                   selectedValue={speciality}
                   onValueChange={setSpeciality}
                 >
-                  <Picker.Item label="Doctor" value="Doctor" />
-                  <Picker.Item label="Doctor Especializado" value="Especializado" />
+                  <Picker.Item label="Pediatría" value="Pediatria" />
                   <Picker.Item label="Médico General" value="Medico" />
+                  <Picker.Item label="Oncología" value="Oncologia" />
+                  <Picker.Item label="Psicología" value="psicologia" />
+                  <Picker.Item label="Terapia de Lenguaje" value="Lenguaje" />
+                  <Picker.Item label="Psicología SAP" value="psicologiaSAP" />
+                  <Picker.Item label="Cirujano Plástico" value="cirugia plastica" />
+                  <Picker.Item label="Nutrición" value="Nutricion" />
+                  <Picker.Item label="Endocronolgía" value="Endocrionologia" />
+                  <Picker.Item label="Cardiología" value="cardiologia" />
+                  <Picker.Item label="Neumonología" value="Neumonologia" />
+                  <Picker.Item label="Otorrinología" value="Otorrinologia" />
                 </Picker>
                 <Input
+                  label="Especialidad"
                   placeholder="Especialidad"
                   disabled={true}
                   value={speciality}
@@ -474,6 +497,7 @@ export const DoctorData = ({route}) => {
                   autoCapitalize={'characters'}
                 />
                 <Input
+                  label="Nombre"
                   placeholder="Nombre"
                   disabled={true}
                   value={nameCedula}
@@ -482,6 +506,7 @@ export const DoctorData = ({route}) => {
                   autoCapitalize={'characters'}
                 />
                 <Input
+                  label="Apellido Paterno"
                   placeholder="Apellido Paterno"
                   disabled={true}
                   value={firstNameCedula}
@@ -490,6 +515,7 @@ export const DoctorData = ({route}) => {
                   autoCapitalize={'characters'}
                 />
                 <Input
+                  label="Apellido Materno"
                   placeholder="Apellido Materno"
                   disabled={true}
                   value={lastNameCedula}

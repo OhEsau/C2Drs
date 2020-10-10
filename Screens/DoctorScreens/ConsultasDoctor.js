@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {View, Text} from 'react-native';
 import {styles} from '../../utils/styles';
+import { Button } from '../../src/components';
 import {listaCitas, restoreAsyncData} from '../../utils/conexiones'
 import {FlatList} from 'react-native-gesture-handler'
 import {ListItem, Avatar, Overlay} from 'react-native-elements'
@@ -92,11 +93,17 @@ export const ConsultasDoctor = () => {
     setOverPendent(!overPendent)
   };
 
+  const videoLlamada= () =>{
+    toggleOverlayPendent();
+    navigation.push('VideoCall');
+  }
+
   const AccionCita = (props) =>{
     return(
       <View>
         <Text>{props.data.id}</Text>
         <Text>{props.data.basic.name}</Text>
+        <Button caption='Agendar cita' onPress={videoLlamada} />
       </View>
     )
   }

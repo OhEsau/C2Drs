@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {View, Text} from 'react-native';
+import { Button } from '../../src/components';
 import {styles} from '../../utils/styles';
 import {listaCitas, restoreAsyncData} from '../../utils/conexiones'
 import {FlatList} from 'react-native-gesture-handler'
@@ -9,7 +10,7 @@ import {Splash} from '../../BaseScreens';
 const ScreenContainer = ({ children }) => (
     <View style={styles.container}>{children}</View>
 );
-export const Consultas = () => {
+export const Consultas = ({navigation}) => {
   const [data, setData] = useState([]);
   const [dataList, setDataList] = useState([]);
   const [newDataList, setNewDataList] = useState([]);
@@ -91,11 +92,17 @@ export const Consultas = () => {
     setOverPendent(!overPendent)
   };
 
+  const videoLlamada= () =>{
+    toggleOverlayPendent();
+    navigation.push('VideoCall');
+  }
+
   const AccionCita = (props) =>{
     return(
       <View>
         <Text>{props.data.id}</Text>
         <Text>{props.data.basic.name}</Text>
+        <Button caption='Agendar cita' onPress={videoLlamada} />
       </View>
     )
   }

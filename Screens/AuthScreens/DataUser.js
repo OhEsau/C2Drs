@@ -22,9 +22,9 @@ export const DataUser = ({navigation, route}) => {
     const [email, setEmail] = useState(route.params.email);
     const [password, setPassWord] = useState(route.params.password);
     const [client_type, setType] = useState(route.params.client_type);
-    const [name, setName] = useState('');
-    const [last_name, setLastname] = useState('');
-    const [first_name, setFirstName] = useState('');
+    const [name, setName] = useState('José');
+    const [last_name, setLastname] = useState('Pérez');
+    const [first_name, setFirstName] = useState('Leómn');
     const [gender, setGender] = useState(2);
     const [birthday, setBirthday] = useState('01/01/1984');
     const [phone, setPhone] = useState('1234567890');
@@ -166,6 +166,7 @@ export const DataUser = ({navigation, route}) => {
         <Card style={styles.container}>
         <Text style={styles.contenedor} > Ingrese sus datos personales por favor</Text>
             <Input
+                label="Nombre(s)"
                 placeholder="Nombre(s)"
                 value={name}
                 onChangeText={setName}
@@ -176,6 +177,7 @@ export const DataUser = ({navigation, route}) => {
                 errorMessage={SignUpErrors ? SignUpErrors.name : null}
             />
             <Input
+                label="Apellido Paterno"
                 placeholder="Apellido Paterno"
                 value={first_name}
                 onChangeText={setFirstName}
@@ -186,6 +188,7 @@ export const DataUser = ({navigation, route}) => {
                 errorMessage={SignUpErrors ? SignUpErrors.first_name : null}
             />
             <Input
+                label="Apellido Materno"
                 placeholder="Apellido Materno"
                 value={last_name}
                 onChangeText={setLastname}
@@ -196,7 +199,8 @@ export const DataUser = ({navigation, route}) => {
                 errorMessage={SignUpErrors ? SignUpErrors.last_name : null}
             />
             <View style={{paddingVertical: 10}}>
-            <Picker 
+            <Picker
+              label="Sexo" 
               selectedValue={gender}
               onValueChange={setGender}
             >
@@ -232,6 +236,7 @@ export const DataUser = ({navigation, route}) => {
             />
             </View>
             <Input 
+              label="Teléfono 10 dígitos"
               placeholder="Teléfono 10 dígitos"
               value={phone}
               onChangeText={setPhone}
