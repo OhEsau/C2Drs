@@ -145,6 +145,7 @@ export const UserRegister = ({navigation, route}) => {
                 <Text style={styles.contenedor} >Nueva cuenta de {route.params.client_type ? 'Doctor' : 'Paciente'}</Text>
                 <Text style={styles.contenedor} >Por favor, ingrese sus datos correctos</Text>
                 <Input
+                    label="Correo Electrónico"
                     placeholder="Correo Electrónico"
                     leftIcon={
                         <Icon
@@ -162,6 +163,7 @@ export const UserRegister = ({navigation, route}) => {
                     errorMessage={SignUpErrors ? SignUpErrors.email : null}
                 />
                 <Input
+                    label="Confirmar Correo"
                     placeholder="Confirmar Correo"
                     leftIcon={
                         <Icon
@@ -179,6 +181,7 @@ export const UserRegister = ({navigation, route}) => {
                     errorMessage={errorEmail}
                 />
                 <Input
+                    label="Contraseña"
                     placeholder="Contraseña"
                     value={password}
                     onChangeText={setPassword}
@@ -205,6 +208,7 @@ export const UserRegister = ({navigation, route}) => {
                     }
                 />
                 <Input
+                    label="Confirmar Contraseña"
                     placeholder="Confirmar Contraseña"
                     value={confirm_password}
                     onChangeText={setConfirmPass}

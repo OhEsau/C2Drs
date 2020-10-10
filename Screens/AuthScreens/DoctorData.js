@@ -34,7 +34,7 @@ export const DoctorData = ({route}) => {
 
   const [tarjetaBanco, setTarjetaBanco] = useState(false);
   const [name_account_owner, setAccountOwner] = useState(route.params.name);
-  const [bank, setBank] = useState('Banco gidotas');
+  const [bank, setBank] = useState('BANCO GIDONEZ');
   const [account, setAccount] = useState('1234567890');
   const [clabe, setClabe] = useState('1234567890');
 

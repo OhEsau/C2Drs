@@ -1,5 +1,5 @@
 import React, { useEffect, useCallback, useState, useContext } from "react";
-import { View, Text, StyleSheet, ActivityIndicator} from "react-native";
+import { View, Text, StyleSheet, ActivityIndicator, Image} from "react-native";
 import { Button } from './src/components';
 import { Card } from 'react-native-elements';
 
@@ -83,6 +83,7 @@ export const Search2 = () => (
 
 export const Splash = (props) => (
   <ScreenContainer>
+    <Image source={require('./assets/logo.png')} style={{height: 150, width: 300}} />
     <Text style ={styles.contenedor}>{props.message}</Text>
     <Text style ={styles.contenedor}>Cargando...</Text>
     <ActivityIndicator size='large' color='#44C2CF'/>
