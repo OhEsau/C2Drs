@@ -33,7 +33,7 @@
     "i18n-js": "^3.2.1",
     "indicative": "^7.4.4",
     "jetifier": "^1.6.5",
-    "lodash": "^4.17.20",
+    "lodash": "^4.17.21",
     "moment": "^2.24.0",
     "react": "16.9.0",
     "react-native": "0.63.1",
